@@ -7,7 +7,7 @@ const TopicsIndexItem = (props) => {
   return (
     <li className={props.nameOfClass}>
       <Link onClick={()=>props.requestTopic(props.topic.id)} to={`topics/${props.topic.id}`}>
-        {props.topic.tags[0]}
+        {props.topic.title}
       </Link>
     </li>
   );

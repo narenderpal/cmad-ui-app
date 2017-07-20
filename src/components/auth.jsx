@@ -11,7 +11,7 @@ class Auth extends React.Component{
       <div className="auth-box">
         <div className="hero-text">
           <div className="logo">CMAD QA APP</div>
-          <h4>A question and answer application built on React frontend, Vert.x Cloud Services on the backend and a Mongo database. 
+          <h4>A question and answer application built on React, Redux frontend, Vert.x Cloud Microservices on the backend and a Mongo database. 
 </h4>
         </div>
         <ErrorsContainer />

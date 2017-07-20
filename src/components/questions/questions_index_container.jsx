@@ -36,7 +36,9 @@ class QuestionsIndex extends React.Component {
       );
     } else {
       allQuestions = Object.values(allQuestions).map(question => {
-        return (<QuestionsIndexItem key={question.id} question={question} />);
+        if(question.title) {
+          return (<QuestionsIndexItem key={question._id} question={question} />);
+        }
       }).reverse();
     }
     return (

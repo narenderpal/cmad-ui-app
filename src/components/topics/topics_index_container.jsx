@@ -18,7 +18,8 @@ class TopicsIndex extends React.Component {
         <div>loading...</div>
       );
     } else {
-      allTopics = Object.values(allTopics).map(topic => {
+      //allTopics = Object.values(allTopics).map(topic => {
+      allTopics = Object.values(tags).map(topic => {
         return (<TopicsIndexItem nameOfClass={"topic-item"} key={topic.id} topic={topic} />);
       });
     }
@@ -36,6 +37,29 @@ class TopicsIndex extends React.Component {
   }
 
 }
+
+const tags = {  
+   "111":{  
+      "id":111,
+      "title":"java"
+   },
+   "112":{  
+      "id":112,
+      "title":"Javascript"
+   },
+   "113":{  
+      "id":113,
+      "title":"Python"
+   },
+   "114":{  
+      "id":114,
+      "title":"angularjs"
+   },
+   "115":{  
+      "id":115,
+      "title":"Misc"
+   }
+};
 
 const mapStateToProps = (state, ownProps) => {
   return ({

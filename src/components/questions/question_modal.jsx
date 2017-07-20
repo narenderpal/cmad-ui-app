@@ -148,7 +148,8 @@ class QuestionModal extends React.Component {
               <div className="modal question-answer-author">
               {
                 modalAnswer ?
-                `${modalAnswer.author.first_name} ${modalAnswer.author.last_name}` :
+                //`${modalAnswer.author.first_name} ${modalAnswer.author.last_name}` :
+                `${modalAnswer.author}` :
                 null
               }
               </div>

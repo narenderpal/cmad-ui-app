@@ -35,7 +35,7 @@ class QuestionsIndexItem extends React.Component {
       renderAnswer = (
         <div className="answer-box">
           <div className="answer-author">
-            Answered by {answer.author.first_name} {answer.author.last_name}
+            Answered by {answer.author}
             <div className="show answer-date">{dateCalc(answer.created_at)}</div>
           </div>
           <div className="answer-body">

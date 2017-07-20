@@ -5,6 +5,7 @@ import dateCalc from '../../util/date_calc';
 
 const AnswerItem = (props) => {
   let renderComments = null;
+  let answeredBy = props.answer.author;
   if (props.answer.comments) {
     const comments = props.answer.comments;
     renderComments =   Object.keys(comments).map(commentId => {
@@ -14,12 +15,12 @@ const AnswerItem = (props) => {
   return (
     <div  className="show question-answer">
       <div className="show answer-header">
-        <div className="show answer-author">{
-          //`${props.answer.author.first_name} ${props.answer.author.last_name}`
-          `${props.answer.author}`
-        }</div>
+        <div className="show answer-date">
+          {answeredBy} Answered
+        </div>
         <div className="show answer-date">{
-          dateCalc(props.answer.created_at)
+          props.answer.created_at ?
+          dateCalc(props.answer.created_at) : "1 week ago"
         }</div>
       </div>
       <div className="show answer-body">

@@ -29,11 +29,12 @@ class QuestionShow extends React.Component {
 
   componentDidMount() {
     const realThis = this;
+    console.log("requestQuestion for :", this.props.params.questionId);
     this.props.requestQuestion(this.props.params.questionId)
       .then(question => {
         realThis.setState({
           title: realThis.props.selectedQuestion.title,
-          id: +realThis.props.selectedQuestion._id,
+          id: realThis.props.selectedQuestion._id,
           body: realThis.props.selectedQuestion.body,
           author: realThis.props.selectedQuestion.author,
           topic_ids: (realThis.props.selectedQuestion.tags ?
@@ -63,6 +64,9 @@ class QuestionShow extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const realThis = this;
+    console.log("Updating question details ********");
+    console.log(this.state);
+
     this.props.updateQuestion(this.state)
       .then(question => realThis.setState({editMode: false}));
   }
@@ -74,36 +78,55 @@ class QuestionShow extends React.Component {
       questionShowAnswer =   Object.keys(answers).map(answerId => {
         return <AnswerItem key={answerId} answer={answers[answerId]} />;
       }).reverse();
+      //questionShowAnswer =   Object.keys(answers).map(answer => {
+        //return <AnswerItem key={answer} answer={answer} />;
+      //}).reverse();
+    }
+
+    let askedBy = null;
+    if (this.props.selectedQuestion.author) {
+      askedBy = this.props.selectedQuestion.author;
+    } else {
+      askedBy = "guest";
     }
 
     let questionShowTopic = null;
     if (this.props.selectedQuestion.topics) {
-      const allTopics = this.props.selectedQuestion.topics;
+      //const allTopics = this.props.selectedQuestion.topics;
+      const allTopics = this.props.selectedQuestion.tags;
+
       questionShowTopic = Object.values(allTopics).map(topic => {
         return (
           <TopicsIndexItem
             nameOfClass={"topic"}
-            key={topic.id}
+            //key={topic.id}
+            key={topic}
+
             topic={topic}
           />
         );
       });
     }
 
+    /*
+      <div>
+        <div className="show question-header">
+          
+            {
+              questionShowAnswer ?
+              "Answered " :
+              "Not yet answered"
+            } 
+         
+        </div>
+    */
+
     const renderQuestion = (
       <div>
         <div className="show question-header">
-          <div>
-            {
-              questionShowAnswer ?
-              "Answer written" :
-              "Not yet answered"
-            } &bull;
-          </div>
-          <ul className="show question-topics">
-            {questionShowTopic}
-          </ul>
+             Asked by {askedBy}
         </div>
+
         <div className="show question-title">
           {this.props.selectedQuestion.title}
         </div>
@@ -117,25 +140,37 @@ class QuestionShow extends React.Component {
     getTopics().then(topics => {
       // this.state.items.map(item=><li key={item._id}>{item.description}</li>) : <li>Loading...</li>
 
-      realThis.topicOptions = topics.map(topic => {
-        return (
-            <option key={topic._id} value={topic._id}>{topic.tags[0]}</option>
-          );
-      });
+      //realThis.topicOptions = topics.map(topic => {
+      //console.log("getTpoics topics :", topics);  
+      //realThis.topicOptions = topics.map(topicId => {
+
+        //return (
+            //<option key={topic._id} value={topic._id}>{topic.tags[0]}</option>
+            //<option key={topicId} value={topicId}>{topics[topicId].title}</option>
+
+          //);
+      //});
     });
     const editQuestion = (
       <div>
         <form className="question-edit" onSubmit={this.handleSubmit}>
-          <lable className="edit-lable">Topic:</lable>
-          <select className="topic-select" value={this.state.topics_id ? this.state.topics_id[0] : ""} name="" onChange={this.handleChange("topic_ids")}>
-            <option value="none">none</option>
-            {this.topicOptions}
-          </select>
-          <lable className="edit-lable">Question:</lable>
+          
+          <lable className="edit-lable">Question Title:</lable>
           <textarea className="edit-title" value={this.state.title} onChange={this.handleChange("title")}/>
+          
           <lable className="edit-lable">Details:</lable>
           <textarea className="edit-body" value={this.state.body ? this.state.body : ""} onChange={this.handleChange("body")}/>
-          <input className="button answer" type="submit" value="Update" />
+          
+
+          <lable className="edit-lable">Tag:</lable>
+          <select className="topic-select" value={this.state.topics_id ? this.state.topics_id[0] : ""} name="" onChange={this.handleChange("topic_ids")}>
+            <option value="Misc">Misc</option>
+            {this.topicOptions}
+          </select>
+
+          <input className="button answer" type="submit" value="Post" />
+
+
         </form>
       </div>
     );
@@ -147,7 +182,7 @@ class QuestionShow extends React.Component {
     );
 
     const deleteButton = (
-      <button className="button delete" onClick={() => this.props.deleteQuestion(+this.props.selectedQuestion.id).then(()=>this.props.router.push("/"))}>
+      <button className="button delete" onClick={() => this.props.deleteQuestion(this.props.selectedQuestion._id).then(()=>this.props.router.push("/"))}>
         Delete
       </button>
     );
@@ -161,10 +196,10 @@ class QuestionShow extends React.Component {
             <button className="button answer" onClick={() => this.props.modalOpen()}>
               Answer
             </button>
-            {this.props.selectedQuestion.userIsAuthor ? editButton : null}
+            {this.props.selectedQuestion.userIsAuthor ? editButton : editButton}
           </div>
             <div>
-              {this.props.selectedQuestion.userIsAuthor ? deleteButton : null}
+              {this.props.selectedQuestion.userIsAuthor ? deleteButton : deleteButton}
           </div>
           </div>
         </div>

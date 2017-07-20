@@ -63,5 +63,5 @@ export const createQuestion = (question) => dispatch => {
 
 export const updateQuestion = (question) => dispatch => {
   return questionsAPIUtil.updateQuestion(question)
-  .then((response) => dispatch(requestQuestion(response.id)));
+  .then((response) => dispatch(requestQuestion(response._id)));
 };

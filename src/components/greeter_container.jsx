@@ -11,8 +11,8 @@ class Greeter extends React.Component {
     if (this.props.currentUser) {
       return (
         <div className="user-options">
-          {this.props.currentUser.firstName}
-          <a href="#" className="button logout" onClick={this.props.logout}>Log out</a>
+          Welcome {this.props.currentUser.firstName}
+          <a href="#" className="button" onClick={this.props.logout}>Log out</a>
         </div>
       );
     } else {

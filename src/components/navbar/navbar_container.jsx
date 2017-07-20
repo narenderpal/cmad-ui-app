@@ -5,11 +5,13 @@ import {requestTopic} from '../../actions/topics_actions';
 import {searchQuestions} from '../../util/questions_api_util';
 import GreeterContainer from '../greeter_container';
 import {Link, hashHistory} from 'react-router';
+import logo from '../../logo.svg';
+import '../../stylesheets/logo.css';
 
 class Navbar extends React.Component {
   constructor(props){
     super(props);
-    this.state = {title: "", body: "", topic_ids: [], searchResults: [] };
+    this.state = {id: "", title: "", body: "", topic_ids: [], searchResults: [] };
     this.handleChange = this.handleChange.bind(this);
     this.handleAsk = this.handleAsk.bind(this);
     this.handleLinkClick = this.handleLinkClick.bind(this);
@@ -20,7 +22,7 @@ class Navbar extends React.Component {
   handleChange(field) {
     return e => {
       const realThis = this;
-      this.setState({[field]: e.target.value}, () => searchQuestions(this.state.title)
+      this.setState({[field]: e.target.value}, () => searchQuestions(this.state.body)
         .then(questions => {
           if( Object.prototype.toString.call( questions ) === "[object Array]" ) {
             realThis.setState({searchResults: questions});
@@ -32,6 +34,22 @@ class Navbar extends React.Component {
     };
   }
 
+  handleAskChange(field) {
+    return e => {
+      const realThis = this;
+      this.setState({[field]: e.target.value});
+      //this.setState({[field]: e.target.value}, () => searchQuestions(this.state.title)
+        //.then(questions => {
+          //if( Object.prototype.toString.call( questions ) === "[object Array]" ) {
+            //realThis.setState({searchResults: questions});
+          //} else {
+            //realThis.setState({searchResults: []});
+          //}
+        //})
+      //);
+    };
+  }
+
   handleAsk(e){
     e.preventDefault();
     const realThis = this;
@@ -39,9 +57,14 @@ class Navbar extends React.Component {
       this.topicId = this.props.topic.id;
     }
     const topics = [this.topicId];
+    this.setState({editMode: true})
     this.setState({topic_ids: topics}, () => {
       realThis.props.askQuestion(realThis.state)
-        .then(question => hashHistory.push(`/questions/${realThis.props.question.id}`));
+        //.then(question => hashHistory.push(`/questions/${realThis.props.question.id}`));
+        .then(question => {
+          hashHistory.push(`/questions/${question._id}`);
+          realThis.setState({id:question._id})
+      });
       realThis.setState({title: "", searchResults: []});
     });
   }
@@ -54,6 +77,9 @@ class Navbar extends React.Component {
   }
 
   handleBlur(e) {
+    setTimeout(() => this.setState({searchResults: []}), 100);
+  }
+  handleAskBlur(e) {
     setTimeout(() => this.setState({searchResults: []}), 100);
   }
 
@@ -77,28 +103,39 @@ class Navbar extends React.Component {
         <div className="navbar">
           <div className="navbar-logo">
             <Link onClick={() => this.props.requestQuestions()} to="/">
+            <img src={logo} className="App-logo" alt="logo" />
               QA App
             </Link>
           </div>
           <div className="navbar-contents">
+            
             <div className="ask-box">
               <form className="ask-form" onFocus={() => this.askFocused = true} onSubmit={this.handleAsk}>
                 <input
+                  type="text" className="ask-title"
+                  placeholder={"Type your question title here..."}
+                  value={this.state.title} 
+                   onChange={this.handleAskChange("title")}
+                />
+                <input type="submit" className="button" value="Ask"
+                />
+              </form>
+            </div>
+
+            <div className="ask-box">
+              <form className="ask-form" onFocus={() => this.askFocused = true} onSubmit={() => this.props.requestQuestions()} to="/">
+                <input
                   type="text"
                   className="ask-title"
-                  placeholder={this.props.topic.title ?
-                    `Ask in ${this.props.topic.title} or Search` :
-                    "Ask or Search"}
-                  value={this.state.title}
+                  placeholder={this.props.topic.body ?
+                    `Ask in ${this.props.topic.body} or Search` :
+                    "Search Questions"}
+                  value={this.state.body}
                   onBlur={() => this.handleBlur()}
-                  onFocus={this.handleChange("title")}
-                  onChange={this.handleChange("title")}
+                  onFocus={this.handleChange("body")}
+                  onChange={this.handleChange("body")}
                 />
-                <input
-                  type="submit"
-                  className="button"
-                  value="Ask Question"
-                />
+                <input type="submit" className="button" value="Search"/>
                 <div
                   className={this.state.searchResults.length > 0 ?
                     "ask-search-results" :
@@ -112,8 +149,9 @@ class Navbar extends React.Component {
               </form>
             </div>
             
-
-            
+            <div className="active-page">
+              <Link onClick={() => this.props.requestQuestions()} to="/"></Link>
+            </div>
             <div className="inactive-page">
               <Link to="/">Answer</Link>
             </div>

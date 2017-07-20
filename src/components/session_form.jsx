@@ -69,7 +69,7 @@ class SessionForm extends React.Component {
             <input
               className="active-button"
               type="submit"
-              value="Guest Login" />
+              value="Guest" />
           </form>
         </div>
       </div>
