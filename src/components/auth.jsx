@@ -10,7 +10,7 @@ class Auth extends React.Component{
     return (
       <div className="auth-box">
         <div className="hero-text">
-          <div className="logo">CMAD QA APP</div>
+          <div className="logo">BufferOverflow</div>
           <h4>A question and answer application built on React, Redux frontend, Vert.x Cloud Microservices on the backend and a Mongo database. 
 </h4>
         </div>

@@ -104,7 +104,7 @@ class Navbar extends React.Component {
           <div className="navbar-logo">
             <Link onClick={() => this.props.requestQuestions()} to="/">
             <img src={logo} className="App-logo" alt="logo" />
-              QA App
+              BufferOverflow
             </Link>
           </div>
           <div className="navbar-contents">

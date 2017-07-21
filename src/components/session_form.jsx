@@ -39,6 +39,16 @@ class SessionForm extends React.Component {
   handleChange(e) {
     this.setState({[e.target.name]: e.target.value});
   }
+  /*
+  <div className="guest-login">
+          <form className="guest-login-form" onSubmit={this.handleSubmit}>
+            <input
+              className="active-button"
+              type="submit"
+              value="Guest" />
+          </form>
+        </div>
+  */
 
   render() {
     return (
@@ -64,14 +74,6 @@ class SessionForm extends React.Component {
               type="submit"
               value="Login" />
         </form>
-        <div className="guest-login">
-          <form className="guest-login-form" onSubmit={this.handleSubmit}>
-            <input
-              className="active-button"
-              type="submit"
-              value="Guest" />
-          </form>
-        </div>
       </div>
     );
   }

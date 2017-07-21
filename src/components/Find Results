@@ -1,0 +1,21 @@
+Searching 23360 files for "Buffer Overflow"
+
+0 matches
+
+Searching 23360 files for "BufferOverflow"
+
+/Users/napal/Documents/CMAD/cmad-ui-app/src/components/auth.jsx:
+   11        <div className="auth-box">
+   12          <div className="hero-text">
+   13:           <div className="logo">BufferOverflow</div>
+   14            <h4>A question and answer application built on React, Redux frontend, Vert.x Cloud Microservices on the backend and a Mongo database. 
+   15  </h4>
+
+/Users/napal/Documents/CMAD/cmad-ui-app/src/components/navbar/navbar_container.jsx:
+  105              <Link onClick={() => this.props.requestQuestions()} to="/">
+  106              <img src={logo} className="App-logo" alt="logo" />
+  107:               Buffer Overflow
+  108              </Link>
+  109            </div>
+
+2 matches across 2 files
